@@ -43,7 +43,7 @@ public class Hammer : MonoBehaviour
             //두더지 타격 효과 생성 (Particle의 색상을 두더지 색상과 동일하게 설정)
             GameObject clone = Instantiate(moleHitEffectPrefab, new Vector3(transform.position.x, 0, transform.position.z), Quaternion.identity);
             ParticleSystem.MainModule main = clone.GetComponent<ParticleSystem>().main;
-            main.startColor = mole.GetComponent<MeshRenderer>().material.color;
+            main.startColor = mole.GetComponentInChildren<MeshRenderer>().material.color;
 
             //점수 증가 (+10)
             gameController.Score += 10;

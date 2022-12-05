@@ -7,6 +7,7 @@ public class Hammer : MonoBehaviour
     [SerializeField] private float maxY;                        //망치의 최대 y 위치
     [SerializeField] private float minY;                        //망치의 최소 y 위치
     [SerializeField] private GameObject moleHitEffectPrefab;    //두더지 타격 효과 프리팹
+    [SerializeField] private GameController gameController;     //점수 증가를 위한 GameController
     [SerializeField] private ObjectDetector objectDetector;     //마우스 클릭으로 오브젝트 선택을 위한 ObjectDetector
     private Movement movement;                                  //망치 오브젝트 이동을 위한 Movement
 
@@ -43,6 +44,9 @@ public class Hammer : MonoBehaviour
             GameObject clone = Instantiate(moleHitEffectPrefab, new Vector3(transform.position.x, 0, transform.position.z), Quaternion.identity);
             ParticleSystem.MainModule main = clone.GetComponent<ParticleSystem>().main;
             main.startColor = mole.GetComponent<MeshRenderer>().material.color;
+
+            //점수 증가 (+10)
+            gameController.Score += 10;
 
             //망치를 위로 이동시키는 코루틴 재생
             StartCoroutine("MoveUp");

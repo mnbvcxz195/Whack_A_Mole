@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //지하 대기, 지상 대기, 지하 -> 지상 이동, 지상 -> 지하 이동
 public enum MoleState
 {
     UnderGround = 0, OnGround, MoveUp, MoveDown
+}
+
+public enum MoleType
+{
+    Normal = 0, Red, Blue
 }
 
 public class MoleFSM : MonoBehaviour
@@ -14,6 +20,12 @@ public class MoleFSM : MonoBehaviour
     [SerializeField] private float limitMinY;         //내려갈 수 있는 최소 y 위치
     [SerializeField] private float LimitMaxY;         //올라올 수 있는 최대 y 위치
     private Movement movement;                        //위, 아래 이동을 위한 Movement
+    [SerializeField]private MeshRenderer[] meshRenderers;//두더지의 색상 설정을 위한 MeshRenderer
+
+    private MoleType moleType;                        //두더지의 종류
+    private Color defaultColor;                       //기본 두더지의 색상
+    
+    
 
     //두더지의 현재 상태 (set는 MoleFSM 클래스 내부에서만)
     public MoleState MoleState
@@ -22,9 +34,37 @@ public class MoleFSM : MonoBehaviour
         get;
     }
 
+    //두더지 종류 (MoleType에 따라 두더지 색상 변경)
+    public MoleType MoleType
+    {
+        set
+        {
+            moleType = value;
+
+            Color color = defaultColor;
+            
+            switch (moleType)
+            {
+                case MoleType.Red:
+                    color = Color.red;
+                    break;
+                case MoleType.Blue:
+                    color = Color.blue;
+                    break;                    
+            }
+
+            for (int i = 0; i < meshRenderers.Length; i++)
+                meshRenderers[i].material.color = color;
+        }
+        get => moleType;
+    }
+
     private void Awake()
     {
         movement = GetComponent<Movement>();
+        //meshRenderer = GetComponentInChildren<MeshRenderer>();
+
+        defaultColor = meshRenderers[0].material.color; //두더지 최초 색상 저장
 
         ChangeState(MoleState.UnderGround);
     }

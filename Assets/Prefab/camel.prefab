@@ -55,6 +55,11 @@ MonoBehaviour:
   waitTimeOnGround: 0.2
   limitMinY: -0.3
   LimitMaxY: 0.5
+  meshRenderers:
+  - {fileID: 1251292134213797970}
+  - {fileID: 9143365360006940261}
+  - {fileID: 3263897262775008265}
+  - {fileID: 8068480418343324176}
 --- !u!114 &2635961805134366065
 MonoBehaviour:
   m_ObjectHideFlags: 0

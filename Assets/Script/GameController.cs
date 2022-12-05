@@ -15,6 +15,9 @@ public class GameController : MonoBehaviour
         get => score;
     }
 
+    [field:SerializeField] public float MaxTime { private set; get; }
+    public float CurrentTime { private set; get; }
+
     private void Start()
     {
         countDown.StartCountDown(GameStart);
@@ -23,5 +26,19 @@ public class GameController : MonoBehaviour
     private void GameStart()
     {
         moleSpawner.Setup();
+
+        StartCoroutine("OnTimeCount");
+    }
+
+    private IEnumerator OnTimeCount()
+    {
+        CurrentTime = MaxTime;
+
+        while (CurrentTime > 0)
+        {
+            CurrentTime -= Time.deltaTime;
+
+            yield return null;
+        }
     }
 }

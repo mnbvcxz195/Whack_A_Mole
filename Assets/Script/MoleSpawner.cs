@@ -7,7 +7,8 @@ public class MoleSpawner : MonoBehaviour
     [SerializeField] private MoleFSM[] moles;  //맵에 존재하는 두더지들
     [SerializeField] private float spawnTime;  //두더지 등장 주기
 
-    void Start()
+    //public void Start()
+    public void Setup() // 카운트 다운 후 두더지를 생성해야 함으로 Start가 아닌 Setup 함수 생성
     {
         StartCoroutine("SpawnMole");
     }

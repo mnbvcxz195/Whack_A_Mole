@@ -7,13 +7,16 @@ public class Hammer : MonoBehaviour
     [SerializeField] private float maxY;                        //망치의 최대 y 위치
     [SerializeField] private float minY;                        //망치의 최소 y 위치
     [SerializeField] private GameObject moleHitEffectPrefab;    //두더지 타격 효과 프리팹
+    [SerializeField] private AudioClip[] audioClips;              //두더지 타격 시 사운드
     [SerializeField] private GameController gameController;     //점수 증가를 위한 GameController
     [SerializeField] private ObjectDetector objectDetector;     //마우스 클릭으로 오브젝트 선택을 위한 ObjectDetector
     private Movement movement;                                  //망치 오브젝트 이동을 위한 Movement
+    private AudioSource audioSource;                            //두더지 타격 시 사운드 재생하는 AudioSource
 
     private void Awake()
     {
         movement = GetComponent<Movement>();
+        audioSource = GetComponent<AudioSource>();
 
         //OnHit 메소드를 ObjectDetector Class의 raycastEvent에 이벤트로 등록
         //ObjectDetector의 raycastEvent.Invoke(hit.transform); 메소드가
@@ -46,7 +49,9 @@ public class Hammer : MonoBehaviour
             main.startColor = mole.GetComponentInChildren<MeshRenderer>().material.color;
 
             //점수 증가 (+10)
-            gameController.Score += 10;
+            //gameController.Score += 10;
+            //두더지 색상에 따라 처리 (점수, 시간, 사운드 재생)
+            MoleHitProcess(mole);
 
             //망치를 위로 이동시키는 코루틴 재생
             StartCoroutine("MoveUp");
@@ -68,5 +73,34 @@ public class Hammer : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void MoleHitProcess(MoleFSM mole)
+    {
+        if(mole.MoleType == MoleType.Normal)
+        {
+            gameController.Score += 10;
+        }
+
+        else if(mole.MoleType == MoleType.Red)
+        {
+            gameController.Score -= 50;
+        }
+
+        else if(mole.MoleType == MoleType.Blue)
+        {
+            gameController.Score += 30;
+            gameController.CurrentTime += 5;
+        }
+
+        //사운드 재생 (Normal = 0, Red = 1, Blue = 2)
+        PlaySound((int)mole.MoleType);
+    }
+
+    private void PlaySound(int index)
+    {
+        audioSource.Stop();
+        audioSource.clip = audioClips[index];
+        audioSource.Play();
     }
 }

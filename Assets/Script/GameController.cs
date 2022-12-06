@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private CountDown countDown;
     [SerializeField] private MoleSpawner moleSpawner;
     private int score;
+    private float currentTime;
 
     public int Score
     {
@@ -16,7 +17,11 @@ public class GameController : MonoBehaviour
     }
 
     [field:SerializeField] public float MaxTime { private set; get; }
-    public float CurrentTime { private set; get; }
+    public float CurrentTime
+    {
+        set => currentTime = Mathf.Clamp(value, 0, MaxTime);
+        get => currentTime;
+    }
 
     private void Start()
     {

@@ -17,6 +17,8 @@ public enum MoleType
 
 public class MoleFSM : MonoBehaviour
 {
+    [SerializeField] private GameController gameController;  //콤보 초기화를 위한 GameController
+
     [SerializeField] private float waitTimeOnGround;  //지면에 올라와서 내려가기까지 기다리는 시간
 
     [SerializeField] private float limitMinY;         //내려갈 수 있는 최소 y 위치
@@ -146,10 +148,23 @@ public class MoleFSM : MonoBehaviour
             if(transform.position.y <= limitMinY)
             {
                 //UnderGround 상태로 변경
-                ChangeState(MoleState.UnderGround);
+                //ChangeState(MoleState.UnderGround);
+                break;  //while() 아래쪽 실행을 위해 이동 완료 시 break;
             }
 
             yield return null;
         }
+
+        //망치에 타격 당하지 않고 자연스럽게 구멍으로 들어갈 때 호출
+        //MoveDown -> UnderGround
+
+        //망치로 때리지 못하고 땅속으로 들어간 두더지의 속성이 Normal이면 콤보 초기화
+        if(moleType == MoleType.Normal)
+        {
+            gameController.Combo = 0;
+        }
+
+        //UnderGround 상태로 변경
+        ChangeState(MoleState.UnderGround);
     }
 }

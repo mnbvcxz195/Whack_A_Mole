@@ -80,14 +80,23 @@ public class Hammer : MonoBehaviour
     {
         if(mole.MoleType == MoleType.Normal)
         {
-            gameController.Score += 30;
+            gameController.Combo++;
+            //gameController.Score += 30;
+            //기본 x1에 10콤보당 0.5씩 더한다
+            float scoreMultiple = 1 + gameController.Combo / 10 * 0.5f;
+            int getScore = (int)(scoreMultiple * 30);
+            //계산된 점수 getScore를 Score에 더해준다.
+            gameController.Score += getScore;
+
             //MoleIndex로 순번을 정해 놨기 때문에 같은 자리에 있는 TextGetScore 텍스트 출력
             //하얀색 텍스트로 점수 증가 표현
-            moleHitTextViewers[mole.MoleIndex].OnHit("Score +30", Color.white);
+            //moleHitTextViewers[mole.MoleIndex].OnHit("Score +30", Color.white);
+            moleHitTextViewers[mole.MoleIndex].OnHit("Score + " + getScore, Color.white);
         }
 
         else if(mole.MoleType == MoleType.Red)
         {
+            gameController.Combo = 0;     //빨간 두더지 때릴 시 콤보 초기화
             gameController.Score -= 150;
             //빨간색 텍스트로 점수 감소 표현
             moleHitTextViewers[mole.MoleIndex].OnHit("Score -150", Color.red);
@@ -95,6 +104,7 @@ public class Hammer : MonoBehaviour
 
         else if(mole.MoleType == MoleType.Blue)
         {
+            gameController.Combo++;
             gameController.CurrentTime += 3;
             //파란색 텍스트로 시간 증가 표현
             moleHitTextViewers[mole.MoleIndex].OnHit("Time +3", Color.blue);

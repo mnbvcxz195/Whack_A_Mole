@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Hammer : MonoBehaviour
 {
-    [SerializeField] private float maxY;                        //망치의 최대 y 위치
-    [SerializeField] private float minY;                        //망치의 최소 y 위치
-    [SerializeField] private GameObject moleHitEffectPrefab;    //두더지 타격 효과 프리팹
-    [SerializeField] private AudioClip[] audioClips;              //두더지 타격 시 사운드
-    [SerializeField] private GameController gameController;     //점수 증가를 위한 GameController
-    [SerializeField] private ObjectDetector objectDetector;     //마우스 클릭으로 오브젝트 선택을 위한 ObjectDetector
-    private Movement movement;                                  //망치 오브젝트 이동을 위한 Movement
-    private AudioSource audioSource;                            //두더지 타격 시 사운드 재생하는 AudioSource
+    [SerializeField] private float maxY;                              //망치의 최대 y 위치
+    [SerializeField] private float minY;                              //망치의 최소 y 위치
+    [SerializeField] private GameObject moleHitEffectPrefab;          //두더지 타격 효과 프리팹
+    [SerializeField] private AudioClip[] audioClips;                  //두더지 타격 시 사운드
+    [SerializeField] private MoleHitTextViewer[] moleHitTextViewers;  //타격한 두더지 위치에 타격 정보 텍스트 출력
+    [SerializeField] private GameController gameController;           //점수 증가를 위한 GameController
+    [SerializeField] private ObjectDetector objectDetector;           //마우스 클릭으로 오브젝트 선택을 위한 ObjectDetector
+    private Movement movement;                                        //망치 오브젝트 이동을 위한 Movement
+    private AudioSource audioSource;                                  //두더지 타격 시 사운드 재생하는 AudioSource
 
     private void Awake()
     {
@@ -79,18 +80,24 @@ public class Hammer : MonoBehaviour
     {
         if(mole.MoleType == MoleType.Normal)
         {
-            gameController.Score += 10;
+            gameController.Score += 30;
+            //MoleIndex로 순번을 정해 놨기 때문에 같은 자리에 있는 TextGetScore 텍스트 출력
+            //하얀색 텍스트로 점수 증가 표현
+            moleHitTextViewers[mole.MoleIndex].OnHit("Score +30", Color.white);
         }
 
         else if(mole.MoleType == MoleType.Red)
         {
-            gameController.Score -= 50;
+            gameController.Score -= 150;
+            //빨간색 텍스트로 점수 감소 표현
+            moleHitTextViewers[mole.MoleIndex].OnHit("Score -150", Color.red);
         }
 
         else if(mole.MoleType == MoleType.Blue)
         {
-            gameController.Score += 30;
-            gameController.CurrentTime += 5;
+            gameController.CurrentTime += 3;
+            //파란색 텍스트로 시간 증가 표현
+            moleHitTextViewers[mole.MoleIndex].OnHit("Time +3", Color.blue);
         }
 
         //사운드 재생 (Normal = 0, Red = 1, Blue = 2)

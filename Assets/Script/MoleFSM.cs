@@ -9,6 +9,7 @@ public enum MoleState
     UnderGround = 0, OnGround, MoveUp, MoveDown
 }
 
+//두더지 종류 (기본, 점수 -, 시간 +)
 public enum MoleType
 {
     Normal = 0, Red, Blue
@@ -17,8 +18,11 @@ public enum MoleType
 public class MoleFSM : MonoBehaviour
 {
     [SerializeField] private float waitTimeOnGround;  //지면에 올라와서 내려가기까지 기다리는 시간
+
     [SerializeField] private float limitMinY;         //내려갈 수 있는 최소 y 위치
+
     [SerializeField] private float LimitMaxY;         //올라올 수 있는 최대 y 위치
+
     private Movement movement;                        //위, 아래 이동을 위한 Movement
     [SerializeField]private MeshRenderer[] meshRenderers;//두더지의 색상 설정을 위한 MeshRenderer
 
@@ -58,6 +62,9 @@ public class MoleFSM : MonoBehaviour
         }
         get => moleType;
     }
+
+    //두더지가 배치되어 있는 순번 (왼쪽 상단부터 0)
+    [field:SerializeField] public int MoleIndex { private set; get; }
 
     private void Awake()
     {

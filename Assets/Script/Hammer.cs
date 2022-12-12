@@ -80,7 +80,7 @@ public class Hammer : MonoBehaviour
     {
         if(mole.MoleType == MoleType.Normal)
         {
-            gameController.NormalMoleHitCount ++; //기본 두더지 타격 획수 1 증가
+            gameController.NormalMoleHitCount++; //기본 두더지 타격 획수 1 증가
             gameController.Combo++;
             //gameController.Score += 30;
             //기본 x1에 10콤보당 0.5씩 더한다
@@ -106,10 +106,10 @@ public class Hammer : MonoBehaviour
 
         else if(mole.MoleType == MoleType.Blue)
         {
-            gameController.BlueMoleHitCount ++; //파란 두더지 타격 획수 1 증가
-            gameController.Combo ++;
+            gameController.Combo++;
             gameController.CurrentTime += 3;
             //파란색 텍스트로 시간 증가 표현
+            gameController.BlueMoleHitCount++; //파란 두더지 타격 획수 1 증가
             moleHitTextViewers[mole.MoleIndex].OnHit("Time +3", Color.blue);
         }
 

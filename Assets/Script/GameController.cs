@@ -85,7 +85,7 @@ public class GameController : MonoBehaviour
         PlayerPrefs.SetInt("CurrentMaxCombo", MaxCombo);
         PlayerPrefs.SetInt("CurrentNormalMoleHitCount", NormalMoleHitCount);
         PlayerPrefs.SetInt("CurrentRedMoleHitCount", RedMoleHitCount);
-        PlayerPrefs.SetInt("CurrentBlueHitCount", BlueMoleHitCount);
+        PlayerPrefs.SetInt("CurrentBlueMoleHitCount", BlueMoleHitCount);
 
         //"GameOver" æ¿¿∏∑Œ ¿Ãµø
         SceneManager.LoadScene("GameOver");

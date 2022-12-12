@@ -114,7 +114,7 @@ public class RankSystem : MonoBehaviour
     {
         for(int i = 0; i < maxRankCount; ++i)
         {
-            PlayerPrefs.SetInt("RankScore" + "{0:#,##0}" + i, rankDataArray[i].score);
+            PlayerPrefs.SetInt("RankScore" + i, rankDataArray[i].score);
             PlayerPrefs.SetInt("RankMaxCombo" + i, rankDataArray[i].maxCombo);
             PlayerPrefs.SetInt("RankNormalMoleHitCount" + i, rankDataArray[i].normalMoleHitCount);
             PlayerPrefs.SetInt("RankRedMoleHitCount" + i, rankDataArray[i].redMoleHitCount);
